@@ -3,9 +3,10 @@ from linear_regression import LinearRegression as myLinearRegression
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
+
+from plot_visualization import plotVisualization
 
 
 def read_csv(file_path):
@@ -51,13 +52,4 @@ my_w, my_b = myModel.getParams()
 my_y_pred = np.dot(x, my_w) + my_b
 evalPrecision(y, my_y_pred, 'My', log=True)
 
-# 결과 시각화
-plt.scatter(x, y, color='blue', label='Actual Data')  # 실제 데이터 산점도
-plt.plot(x, sklearn_pred, color='red', linewidth=2, label='Regression Line')  # sklearn 회귀선
-plt.plot(x, my_y_pred, color='green', linewidth=2, label='My Regression Line', linestyle='--')  # 나의 회귀선
-plt.xlabel('Mileage (km)')
-plt.ylabel('Price')
-plt.title('Linear Regression Fit')
-plt.legend()
-plt.grid(True)
-plt.show()
+plotVisualization(x, y, sklearn_pred, my_y_pred)
