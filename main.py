@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.preprocessing import StandardScaler
 
 
@@ -34,6 +35,13 @@ def sklearn_model_result(features, labels):
 
     result = model.predict(features)
 
+    # 정밀도 평가 (MSE, MAE, R²)
+    mse = mean_squared_error(labels, result)
+    mae = mean_absolute_error(labels, result)
+    r2 = r2_score(labels, result)
+
+    print(f'Sklearn Model - MSE: {mse}, MAE: {mae}, R²: {r2}')
+
     return result
 
 
@@ -60,6 +68,14 @@ def my_linear_regression(features, labels, learning_rate, epochs):
             print(f'Epoch {epoch}, Loss: {loss}')
 
     print(f'My Model - w: {w}, b: {b}')
+
+    # 정밀도 평가 (MSE, MAE, R²)
+    y_pred = np.dot(features, w) + b
+    mse = mean_squared_error(labels, y_pred)
+    mae = mean_absolute_error(labels, y_pred)
+    r2 = r2_score(labels, y_pred)
+
+    print(f'My Model - MSE: {mse}, MAE: {mae}, R²: {r2}')
 
     return w, b
 
