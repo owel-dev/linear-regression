@@ -13,7 +13,6 @@ def evalPrecision(y, y_pred, name=None, verbose=False):
     r2 = 1 - (ss_residual / ss_total)
 
     if verbose:
-        print("----------------------------")
         print(f"Model: {name}")
         print(f"Mean Squared Error: {mse:.4f}")
         print(f"Mean Absolute Error: {mae:.4f}")

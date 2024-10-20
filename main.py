@@ -25,6 +25,7 @@ def main(args):
     sklearn_w = sklearn_model.coef_
     sklearn_b = sklearn_model.intercept_
     sklearn_y_pred = np.dot(x, sklearn_w) + sklearn_b
+    print(f'#SKLearn w: {sklearn_w}, b: {sklearn_b}')
     evalPrecision(y, sklearn_y_pred, 'sklearn', verbose=True)
 
     # 내 모델 테스트
