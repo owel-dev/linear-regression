@@ -1,21 +1,22 @@
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 
 class LinearRegression():
-    def __init__(self, name="Default", log=False):
+    def __init__(self, name="Default", verbose=False):
         self._name = name
         self._b = None
         self._w = None
-        # log 여부에 따라 출력 함수를 설정
-        self.log_fn = print if log else lambda *args, **kwargs: None
+        # verbose 여부에 따라 출력 함수를 설정
+        self.log_fn = print if verbose else lambda *args, **kwargs: None
 
     def getParams(self):
         return self._w, self._b
 
     def fit(self, x, y, learning_rate=0.001, epochs=10000):
         n_samples, n_features = x.shape
-        self._w = np.ones(n_features)
-        self._b = 1.0
+        self._w = np.zeros(n_features)
+        self._b = 0.0
 
         for epoch in range(epochs):
             y_pred = np.dot(x, self._w) + self._b
