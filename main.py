@@ -28,8 +28,8 @@ def main(args):
     sklearn_model.fit(x, y)
     sklearn_w = sklearn_model.coef_
     sklearn_b = sklearn_model.intercept_
-    sklearn_pred = np.dot(x, sklearn_w) + sklearn_b
-    evalPrecision(y, sklearn_pred, 'sklearn', True)
+    sklearn_y_pred = np.dot(x, sklearn_w) + sklearn_b
+    evalPrecision(y, sklearn_y_pred, 'sklearn', True)
 
     # 내 모델 테스트
     myModel = myLinearRegression("myModel", True)
@@ -39,7 +39,7 @@ def main(args):
     evalPrecision(y, my_y_pred, 'My', True)
 
     # 결과 시각화
-    plotVisualization(x, y, sklearn_pred, my_y_pred)
+    plotVisualization(x, y, sklearn_y_pred, my_y_pred)
 
 
 if __name__ == "__main__":
