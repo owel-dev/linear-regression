@@ -1,6 +1,7 @@
 import argparse
+import pickle
 
-from data.data_loader import DataLoader
+from src.data_loader import DataLoader
 from src.eval_precision import evalPrecision
 from src.linear_regression import LinearRegression as myLinearRegression
 
@@ -13,15 +14,10 @@ from src.plot_visualization import plotVisualization
 
 def main(args):
     # 데이터 로드
-    data_loader = DataLoader("data")
+    data_loader = DataLoader(data_path_prefix="data", model_path_prefix="model")
     data = data_loader.loadData(args.data_path)
     x = data.iloc[:, :-1].values  # 마지막 열 제외한 모든 열 선택
     y = data.iloc[:, -1].values  # 마지막 열 선택
-
-    # 데이터 정규화
-    scaler = StandardScaler()
-    x = scaler.fit_transform(x)
-    y = (y - y.mean()) / y.std()
 
     # sklearn 모델 테스트
     sklearn_model = LinearRegression()
@@ -29,13 +25,24 @@ def main(args):
     sklearn_w = sklearn_model.coef_
     sklearn_b = sklearn_model.intercept_
     sklearn_y_pred = np.dot(x, sklearn_w) + sklearn_b
-    evalPrecision(y, sklearn_y_pred, 'sklearn', True)
+    evalPrecision(y, sklearn_y_pred, 'sklearn', verbose=True)
 
     # 내 모델 테스트
-    myModel = myLinearRegression("myModel", True)
-    myModel.fit(x, y, args.learning_rate, args.epochs)
-    my_w, my_b = myModel.getParams()
-    my_y_pred = np.dot(x, my_w) + my_b
+    scaler = StandardScaler()
+    scaler.fit(x)
+    reg_x = scaler.transform(x)
+    my_model = myLinearRegression("myModel", verbose=True)
+    my_model.fit(reg_x, y, args.learning_rate, args.epochs)
+
+    # 모델과 스케일러 함께 저장
+    with open('model/linear_regression_with_scaler.pkl', 'wb') as f:
+        pickle.dump((scaler, my_model), f)
+
+    # 불러오기
+    loaded_scaler, loaded_model = data_loader.loadData('linear_regression_with_scaler.pkl')
+    my_w, my_b = loaded_model.getParams()
+    reg_x = loaded_scaler.transform(x)
+    my_y_pred = np.dot(reg_x, my_w) + my_b
     evalPrecision(y, my_y_pred, 'My', True)
 
     # 결과 시각화
