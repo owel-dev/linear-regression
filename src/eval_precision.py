@@ -18,4 +18,4 @@ def evalPrecision(y, y_pred, name=None, log=False):
         print(f'  - MAE: {mae:.4f}')
         print(f'  - R² : {r2:.4f}')
 
-    return mse, mae, r2
+    return {'mse': mse, 'mae': mae, 'r2': r2}
