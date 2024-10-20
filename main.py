@@ -25,7 +25,7 @@ def main(args):
     sklearn_w = sklearn_model.coef_
     sklearn_b = sklearn_model.intercept_
     sklearn_y_pred = np.dot(x, sklearn_w) + sklearn_b
-    print(f'#SKLearn w: {sklearn_w}, b: {sklearn_b}')
+    print(f'#sklearn w: {sklearn_w}, b: {sklearn_b}')
     evalPrecision(y, sklearn_y_pred, 'sklearn', verbose=True)
 
     # 내 모델 테스트
@@ -44,7 +44,7 @@ def main(args):
     my_w, my_b = loaded_model.getParams()
     reg_x = loaded_scaler.transform(x)
     my_y_pred = np.dot(reg_x, my_w) + my_b
-    evalPrecision(y, my_y_pred, 'My', True)
+    evalPrecision(y, my_y_pred, 'myModel', True)
 
     # 결과 시각화
     plotVisualization(x, y, sklearn_y_pred, my_y_pred)
